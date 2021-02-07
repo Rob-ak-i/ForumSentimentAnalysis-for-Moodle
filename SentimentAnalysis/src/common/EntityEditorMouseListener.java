@@ -48,9 +48,6 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 	public static JComboBox partsList;
 	
 
-	static int xPad,yPad;
-	static int xf,yf;
-	static int thickness;
 	static boolean pressed=false;
 	
 	
@@ -95,8 +92,8 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 		if(!redispatchMouseEvent(e))return;
 
 		if(mode==MODE_PUT_PHANTOM_MODE){
-			GenericPhantom.xi=cur.x;
-			GenericPhantom.yi=cur.y;
+			GenericPhantom.xi=e.getX();//
+			GenericPhantom.yi=e.getY();//cur.y;
 		}
     }
     
@@ -113,14 +110,10 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 				break;
 				
 			}
-			xPad=cur.x;
-			yPad=cur.y;
 		}
 	}
 	public void mouseClicked(MouseEvent e) {
 		if(!redispatchMouseEvent(e))return;
-		xPad=cur.x;
-		yPad=cur.y;
 		
 		pressed=true;
 	}
@@ -139,19 +132,16 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
  	*/
     public void mouseReleased(MouseEvent e) {
 		if(!redispatchMouseEvent(e))return;
-		int x=cur.x,y=cur.y;
-		Dot MousePosOnRealMap=EntityRenderer.getRealDotFromImageCoords(x, y);
+		int xScr=e.getX();//cur.x;
+		int yScr=e.getY();//cur.y;
+		Dot  realCoords= EntityRenderer.getRealDotFromImageCoords(xScr, yScr);
+		int xMath=realCoords.x;//cur.x;
+		int yMath=realCoords.y;//cur.y;
+		Dot MousePosOnRealMap=EntityRenderer.getRealDotFromImageCoords(xScr, yScr);
 		//common computations for oval and rectangle
-		int  x1=xf, x2=xPad, y1=yf, y2=yPad;
-		if(xf>xPad) {
-			x2=xf; x1=xPad; 
-		}
-		if(yf>yPad) {
-			y2=yf; y1=yPad; 
-		}
 		switch(mode) {
 		case MODE_PUT_PHANTOM_MODE:
-			CommonData.scheme.printForum(x,y);
+			CommonData.scheme.printForum(xMath,yMath);
 			mode=MODE_OBSERVE;
 			GenericPhantom.flush();
 			break;
@@ -162,7 +152,7 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 			break;
 		case MODE_MOVE:
 			if(CommonData.partSelected==null)break;
-			if(CommonData.scheme.whatElementIndexInZone(x,y,PartBinaryBasic.SIZE_WIDTH_STANDART)!=-1)break;
+			if(CommonData.scheme.whatElementIndexInZone(xScr,yScr,PartBinaryBasic.SIZE_WIDTH_STANDART)!=-1)break;
 			//CommonData.partSelected.selected=0;//.drawWithColor(colorBackground);
 			//if(EntityEditor_Helper.isShowPartNamesAlways==0)	CommonData.partSelected.drawName(colorBackground);
 			//CommonData.partSelected.selected=0;//drawWithColor(colorBackground);
@@ -177,7 +167,7 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 				CommonData.partSelected.selected=0;
 			}
 			
-			tempelement=CommonData.scheme.whatElementInZone(x, y, 10);
+			tempelement=CommonData.scheme.whatElementInZone(xScr, yScr, 10);
 			if(tempelement==null) {
 				CommonData.partSelected=null;
 				CommonData.nameedit.setText(common.Lang.InnerTable.Item.itemNameEditFantomCaptionName);
@@ -194,13 +184,13 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 			break;
 			
 		case MODE_SETUP_NODE:
-			tempelement=CommonData.scheme.whatElementInZone(x, y, 10);
+			tempelement=CommonData.scheme.whatElementInZone(xScr, yScr, 10);
 			if(tempelement!=null)break;
-			CommonData.scheme.addNode(x, y);
+			CommonData.scheme.addNode(xMath, yMath);
 			break;
 		case MODE_SELECT_WITH_CONTROL:
 			if(CommonData.partSelected==null)break;
-			tempelement=CommonData.scheme.whatElementInZone(x, y, 10);
+			tempelement=CommonData.scheme.whatElementInZone(xScr, yScr, 10);
 			if(tempelement==null)break;
 			//((PartBinaryControlledBasic)CommonData.partSelected).getNextElement(tempelement);
 			break;
@@ -211,7 +201,7 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 		case MODE_SETUP_PART_STAGE1_selectNodeFrom:
 			/**setting up double port
 			 * part 1 - basic node selection*/
-			tempelement=CommonData.scheme.whatElementInZone(xPad, yPad, 10);
+			tempelement=CommonData.scheme.whatElementInZone(xScr, yScr, 10);
 			if(tempelement==null)break;
 			if(tempelement.getClass().getSimpleName().compareTo(PartNode.class.getSimpleName())!=0)break;
 			nodeFrom=(PartNode) tempelement;
@@ -221,7 +211,7 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 		case MODE_SETUP_PART_STAGE2_selectNodeTo:
 			/**setting up double port
 			 * part 2 - second node selection*/
-			tempelement=CommonData.scheme.whatElementInZone(xPad, yPad, 10);
+			tempelement=CommonData.scheme.whatElementInZone(xScr, yScr, 10);
 			if(tempelement==null)break;
 			if(tempelement.getClass().getSimpleName().compareTo(PartNode.class.getSimpleName())!=0)break;
 			nodeTo=(PartNode) tempelement;
@@ -232,7 +222,7 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 		case MODE_SETUP_PART_STAGE3_selectPosition:
 			/**setting up double port
 			 * part 3 - positioning and setting*/
-			CommonData.scheme.addPart(xPad, yPad, nodeFrom, nodeTo, partsList.getSelectedIndex());
+			CommonData.scheme.addPart(xMath, yMath, nodeFrom, nodeTo, partsList.getSelectedIndex());
 			nodeFrom.selected=0;
 			nodeTo.selected=0;
 			nodeFrom=null;
@@ -245,12 +235,12 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 			
 			
 		}
-		xf=0; yf=0;
 		pressed=false;
     }
 
     //A basic implementation of redispatching events.
     private boolean redispatchMouseEvent(MouseEvent e) {
+        cur=e.getPoint();
     	boolean result =true;
         Point glassPanePoint = e.getPoint();
         Container container = contentPane;
@@ -258,7 +248,7 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
                                         frame,
                                         glassPanePoint,
                                         CommonData.canvas);
-        cur=canvasPoint;
+        //cur=canvasPoint;
         if (canvasPoint.y < 0) { //we're not in the content pane
             if (canvasPoint.y + menuBar.getHeight() >= 0) { 
                 //The mouse event is over the menu bar.

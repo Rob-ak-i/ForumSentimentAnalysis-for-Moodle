@@ -15,6 +15,9 @@ public class Settings {
 	/** full application directory path, like this:
 	 * "/home/user1/Documents/Zen/projects/schematicSolver/"
 	 * */
+	public static int language=1;
+	public static String[] languages = {"EN", "RU"};
+	public static boolean isWindows=false;
 	public static String reportSubDirectory="report";
 	public static String appPathFull="";
 	private static void getSymbolicLinks() {
@@ -37,9 +40,19 @@ public class Settings {
 	public static void initialize() {
 		getSymbolicLinks();
 		setCommonData();
-		
-		Lang.LoadInnerTable(CommonData.dataSubDir+"LangRU.txt");
-		try {Lang.SaveInnerTable(CommonData.dataSubDir+"LangOutDBG.txt");} catch (Exception e) {}
+		//try {Lang.SaveInnerTable(CommonData.dataSubDir+"LangOutDBG.txt");} catch (Exception e) {}
+		isWindows = System.getProperty("os.name").contains("Windows");
+		String languageFileName="Lang";
+		languageFileName=languageFileName.concat(languages[language]);
+		if(isWindows)
+			languageFileName=languageFileName.concat("_Windows.txt");
+		else
+			languageFileName=languageFileName.concat("_UNIX.txt");
+		Lang.LoadInnerTable(CommonData.dataSubDir+languageFileName);
+		//stupidly saves to same file
+		System.out.println("LanguageFile: "+languageFileName);
+		try {Lang.SaveInnerTable(CommonData.dataSubDir+languageFileName);} catch (Exception e) {}
+		//try {Lang.SaveInnerTable(CommonData.dataSubDir+"Lang"+languages[language]+"_debug.txt");} catch (Exception e) {}
 	}
 
 	public static String returnFullFileName(String fileName, String fileDirectory) {

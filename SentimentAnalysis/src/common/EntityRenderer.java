@@ -35,6 +35,8 @@ public class EntityRenderer implements Runnable{
 	public static boolean renderingSwitch;
 	public static int renderingMethod=0;
 	public static int maxSleepTime;
+	private static int tick=0;
+	private static int ticksCount=100;
 
 	private static int width=800;
 	private static int height=600;
@@ -44,6 +46,10 @@ public class EntityRenderer implements Runnable{
 	public static int windowRight=0;
 	public static int windowUp=0;
 	public static int windowDown=0;
+	private static boolean updateLogicMapNow = false;
+	private static boolean updateLogicMapInProgress = false;
+	public static void updateLogicMapNow() {if(updateLogicMapInProgress)return;updateLogicMapNow=true;};
+	
 	
 	public static double camposx=350;
 	public static double camposy=250;
@@ -67,22 +73,20 @@ public class EntityRenderer implements Runnable{
 		*/
 		width=panel.getWidth();
 		height=panel.getHeight();
+		int wl=windowLeft,wr=windowRight,wd=windowDown,wu=windowUp;
 		windowLeft=(int)(camposx-((double)(width>>>1))/scalex);
 		windowRight=(int)(camposx+((double)(width>>>1))/scalex);
 		windowUp=(int)(camposy-((double)(height>>>1))/scaley);
 		windowDown=(int)(camposy+((double)(height>>>1))/scaley);
+		if((wl!=windowLeft||wr!=windowRight||wd!=windowDown||wu!=windowUp)&&(CommonData.renderer!=null))
+			CommonData.renderer.renderMap();//updateLogicMapNow();
+		
 	}
     public EntityRenderer(JFrame frameIn, JPanel panelIn, Canvas canvas, int renderMethodIn) {
     	frame=frameIn;
     	panel=panelIn;
         renderingMethod= renderMethodIn;
 		updateWindow(false);
-        //frame = new JFrame("Rendering System Example");
-        //frame.setSize(new Dimension(800, 600));
-        //frame.setDefaultCloseOperation(1); - simply hides frame hen i tried to close window 
-        //frame.setVisible(true);
-        //panel = new JPanel();
-        //panel.setBackground(Color.DARK_GRAY);
         if(renderingMethod==0) {
 	        this.canvas = canvas;
 	        canvas.setBackground(Color.white);
@@ -90,7 +94,6 @@ public class EntityRenderer implements Runnable{
 	        canvas.setMinimumSize(new Dimension(100, 100));
 	        canvas.setMaximumSize(new Dimension(2000, 2000));
 	        panel.add(canvas);
-	        //frame.getContentPane().add(panel);
         }
         if(renderingMethod==1) {
     		//panel.setBounds(0,30,CommonData.WIDTH, CommonData.HEIGHT);
@@ -155,15 +158,15 @@ public class EntityRenderer implements Runnable{
             long startRendering=System.nanoTime();
             g.clearRect(0, 0, width, height);
             //g=bs.getDrawGraphics();
-
+            
 			if(EntityEditorMouseListener.mode==EntityEditorMouseListener.MODE_PUT_PHANTOM_MODE)
 				GenericPhantom.draw(g);
-            //if(animationPhase%3==0)
-            	render(g);//drawing with methods
-            
+            tick=(tick+1)%ticksCount;
     		animationPhase=animationPhase+1;if(animationPhase==animationPhasesCount)animationPhase=0;
-    		if(animationPhase==0)
+    		if(animationPhase==0||updateLogicMapNow)
     			renderMap();
+    		
+            	render(g);//drawing with methods
             bs.show();
             //g.dispose();
             
@@ -185,7 +188,11 @@ public class EntityRenderer implements Runnable{
     private static int animationPhase=0;
     private static int animationPhasesCount=16;
     private void renderMap(){
+    	updateLogicMapNow=false;
+    	if(updateLogicMapInProgress)return;
+    	updateLogicMapInProgress=true;
     	parts.SchematicManager.drawLogicMap(windowLeft, windowRight, windowUp, windowDown, camposx, camposy, scalex, scaley);
+    	updateLogicMapInProgress=false;
     }
     /**renders everything (this method is used in a while() loop based on a boolean, within the run() method);*/
     private void render(Graphics g) {
