@@ -30,7 +30,7 @@ public class PartNode extends PartBasic{
 		int x=(int)(((double)this.x-camposx)*scalex+screenWidthHalf);
 		int y=(int)(((double)this.y-camposy)*scaley+screenHeightHalf);
 		g.fillOval(x-xr, y-yr, width, height);
-		super.drawName(color, camposx, camposy, scalex, scaley);
+		//super.drawName(color, camposx, camposy, scalex, scaley);
 		if(recurseLock)return;
 		recurseLock=true;
 		if(drawRecurse==true) {

@@ -30,7 +30,7 @@ public class SchematicManager {
 	}
 	//TODO Rendering scene 26.01.2021
 	public static void drawLogicMap(double wl,double wr,double wu,double wd, double cx, double cy, double sx, double sy){
-		//System.out.println("Drawing logic level");
+		
 		MatrixHelper.clear(elementsMatrix);
 		MatrixHelper.clear(nodesMatrix);
 		MatrixHelper.clear(partsMatrix);
@@ -42,15 +42,15 @@ public class SchematicManager {
 			x=element.x;
 			y=element.y;
 			isElementInNotInScreen=false;
-			if(x<wl||x>=wr||y<wd||y>=wu)isElementInNotInScreen=true;
+			if(x<wl||x>=wr||y>=wd||y<wu)isElementInNotInScreen=true;
 			if(isElementInNotInScreen)continue;
 			if(!element.getClass().equals(PartNode.class)){
 				x0=((PartBinaryBasic)element).nodeFrom.x;
 				y0=((PartBinaryBasic)element).nodeFrom.y;
 				x1=((PartBinaryBasic)element).nodeTo.x;
 				y1=((PartBinaryBasic)element).nodeTo.y;
-				if(x0<wl||x0>=wr||y0<wd||y0>=wu)isElementInNotInScreen=true;
-				if(x1<wl||x1>=wr||y1<wd||y1>=wu)isElementInNotInScreen=true;
+				if(x0<wl||x0>=wr||y0>=wd||y0<wu)isElementInNotInScreen=true;
+				if(x1<wl||x1>=wr||y1>=wd||y1<wu)isElementInNotInScreen=true;
 			}
 			if(isElementInNotInScreen)continue;
 			element.drawOnMap(elementsMatrix, i, cx, cy, sx, sy);

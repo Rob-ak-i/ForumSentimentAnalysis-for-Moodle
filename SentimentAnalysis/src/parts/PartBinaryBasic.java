@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 
+import util.Dot;
 import common.CommonData;
+import common.EntityRenderer;
 import common.MatrixHelper;
 
 public abstract class PartBinaryBasic extends PartBasic{
@@ -81,14 +83,21 @@ public abstract class PartBinaryBasic extends PartBasic{
 		computeCoordinates();
 	}
 	public void drawOnMap(int[][] map, int caption, double camposx,double camposy,double scalex, double scaley) {
+		Dot scrPos = EntityRenderer.getImageDotFromMathCoords(x, y);
+		Dot scrPos0 = EntityRenderer.getImageDotFromMathCoords(nodeFrom.x, nodeFrom.y);
+		Dot scrPos1 = EntityRenderer.getImageDotFromMathCoords(nodeFrom.x, nodeFrom.y);
+		MatrixHelper.drawLine(map, (scrPos0.x), (scrPos0.y), (scrPos.x), (scrPos.y), caption);
+		MatrixHelper.drawLine(map, (scrPos1.x), (scrPos1.y), (scrPos.x), (scrPos.y), caption);
+		/*
 		int x0=(int)(((double)nodeFrom.x-camposx)*scalex+screenWidthHalf);
 		int y0=(int)(((double)nodeFrom.y-camposy)*scaley+screenHeightHalf);
 		int x1=(int)(((double)nodeTo.x-camposx)*scalex+screenWidthHalf);
 		int y1=(int)(((double)nodeTo.y-camposy)*scaley+screenHeightHalf);
 		int x=(int)(((double)this.x-camposx)*scalex+screenWidthHalf);
 		int y=(int)(((double)this.y-camposy)*scaley+screenHeightHalf);
-		MatrixHelper.drawLine(map, (x0), (y0), (x), (y), caption);
-		MatrixHelper.drawLine(map, (x1), (y1), (x), (y), caption);
+		*/
+		//MatrixHelper.drawLine(map, (x0), (y0), (x), (y), caption);
+		//MatrixHelper.drawLine(map, (x1), (y1), (x), (y), caption);
 	}
 	/*
 	public void drawWithColor(Color color) {

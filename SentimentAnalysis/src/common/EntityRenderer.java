@@ -166,7 +166,7 @@ public class EntityRenderer implements Runnable{
     		if(animationPhase==0||updateLogicMapNow)
     			renderMap();
     		
-            	render(g);//drawing with methods
+            render(g);//drawing with methods
             bs.show();
             //g.dispose();
             

@@ -36,9 +36,9 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 				EntityRenderer.scaley*=1-value*0.1;
 			}else {
 				if(EntityEditorMouseListener.isLShiftPressed) {
-					EntityRenderer.camposx*=1+value*EntityRenderer.scalex*0.1;
+					EntityRenderer.camposx+=value/EntityRenderer.scalex;
 				}else
-					EntityRenderer.camposy*=1+value*EntityRenderer.scaley*0.1;
+					EntityRenderer.camposy+=value/EntityRenderer.scaley;
 			}
 			EntityRenderer.updateWindow(false);
 		}
@@ -301,6 +301,10 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 			case KeyEvent.VK_SHIFT:
 				isLShiftPressed=false;
 				break;
+			case 37:case 39://left-right
+			case 38:case 40://up-down
+				EntityRenderer.updateWindow(false);
+				break;
 			default:
 				System.out.println(keyCode);
 				break;
@@ -336,14 +340,12 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 				EntityRenderer.updateWindow(false);
 				break;
 			case 37:case 39://left-right
-				if(keyCode==39)EntityRenderer.camposx+=1.*EntityRenderer.scalex*0.1;
-				else EntityRenderer.camposx-=1.*EntityRenderer.scalex*0.1;
-				EntityRenderer.updateWindow(false);
+				if(keyCode==39)EntityRenderer.camposx+=1./EntityRenderer.scalex;
+				else EntityRenderer.camposx-=1./EntityRenderer.scalex;
 				break;
 			case 38:case 40://up-down
-				if(keyCode==38)EntityRenderer.camposy-=1*EntityRenderer.scalex*0.1;
-				else EntityRenderer.camposy+=1*EntityRenderer.scalex*0.1;
-				EntityRenderer.updateWindow(false);
+				if(keyCode==38)EntityRenderer.camposy-=1./EntityRenderer.scalex;
+				else EntityRenderer.camposy+=1./EntityRenderer.scalex;
 				break;
 			default:
 				System.out.println(keyCode);
@@ -357,12 +359,12 @@ public class EntityEditorMouseListener extends MouseInputAdapter{
 			switch(keyCode){
 
 			case 37:case 39://left-right
-				if(keyCode==39)EntityRenderer.camposx+=1.*EntityRenderer.scalex*0.1;
-				else EntityRenderer.camposx-=1.*EntityRenderer.scalex*0.1;
+				if(keyCode==39)EntityRenderer.camposx+=1./EntityRenderer.scalex;
+				else EntityRenderer.camposx-=1./EntityRenderer.scalex;
 				break;
 			case 38:case 40://up-down
-				if(keyCode==38)EntityRenderer.camposy-=1*EntityRenderer.scalex*0.1;
-				else EntityRenderer.camposy+=1*EntityRenderer.scalex*0.1;
+				if(keyCode==38)EntityRenderer.camposy-=1./EntityRenderer.scalex;
+				else EntityRenderer.camposy+=1./EntityRenderer.scalex;
 				break;
 			}
 			if(mode==MODE_SELECT && CommonData.partSelected!=null){

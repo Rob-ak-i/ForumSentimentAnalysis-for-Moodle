@@ -3,6 +3,7 @@ package parts;
 import javax.imageio.ImageIO;
 
 import util.Colors;
+import util.Dot;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -56,8 +57,9 @@ public abstract class PartBasic {
 	}
 	*/
 	public void drawOnMap(int[][] map, int caption, double camposx,double camposy,double scalex, double scaley) {
-		int x=(int)(((double)this.x-camposx)*scalex+screenWidthHalf);
-		int y=(int)(((double)this.y-camposy)*scaley+screenHeightHalf);
+		Dot scrPos = EntityRenderer.getImageDotFromMathCoords(x, y);
+		int x=scrPos.x;//(int)(((double)this.x-camposx)*scalex+screenWidthHalf);
+		int y=scrPos.y;//(int)(((double)this.y-camposy)*scaley+screenHeightHalf);
 		MatrixHelper.fillZone(map, (x-xr), (y-yr), (x+xr), (y+yr), caption);
 	}
 	public void drawWithColor(Color color, double camposx,double camposy,double scalex, double scaley) {
