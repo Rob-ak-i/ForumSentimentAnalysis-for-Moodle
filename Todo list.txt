@@ -1,0 +1,5 @@
+20210207:
++multiselection
++loading to tablelist without single buffer
++printing forum to editor with table selector
+-new window for table editing
