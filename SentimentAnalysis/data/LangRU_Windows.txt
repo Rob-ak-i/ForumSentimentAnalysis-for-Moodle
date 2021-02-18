@@ -3,13 +3,13 @@ InnerTable {
         buttonAcceptActionName = "Да"
         buttonDeclineActionName = "Нет"
         buttonAbortActionName = "Отмена"
-        loadCircuitActionName = "Загрузить htm-версию дискуссии"
-        saveCircuitActionName = "Сохранить электросхему"
-        saveAsCircuitActionName = "Сохранить электросхему как"
-        saveCircuitActionErroredName = "Ошибка при сохранении электросхемы"
+        loadCircuitActionName = "Загрузить..."
+        saveCircuitActionName = "Сохранить..."
+        saveCircuitActionErroredName = "Ошибка при сохранении"
         showTextMenuActionName = "Отображение имён деталей"
-        selectorModeMenuActionName = "SelectorMode"
-        printForumMenuActionName = "print forum on editor"
+        selectorModeMenuActionName = "Режим выбора: все элементы"
+        printForumMenuActionName = "Распечатать таблицу в редакторе"
+        showTableEditorMenuActionName = "Показать окно редактора таблиц"
         showTextMenuActionOptionName = "Отображать имена деталей"
         showTextMenuActionDescriptionName = "Отображать в окне редактора имена деталей?"
         computationsMenuAction0Name = "Создать отчёт (WIP)"
@@ -30,7 +30,7 @@ InnerTable {
         in_test = "Данный элемент ещё не проверен на правильность работы."
     }
     Dialog {
-        notValidClassName = "Error! Object with selected class could not be created."
+        notValidClassName = "Ошибка! Объект с выбранным классом не может быть создан."
         SchemeStorageSaveResultText1 = "Число узлов в схеме"
         SchemeStorageSaveResultText2 = "Число радиодеталей в схеме"
         SchemeStorageSaveResultText3 = "Список узлов"
@@ -42,24 +42,36 @@ InnerTable {
         GUIHelper_nameedit_defaultCaption = "Наименование радиодетали"
         GUIHelper_captionedit_defaultCaption = "Величина(по СИ)"
     }
+    GUI {
+        TableSelectorLable1 = "Выберите идентификатор таблицы для создания по ней отчёта"
+        TableSelectorLable2 = "Выберите идентификатор таблицы, которую хотите сохранить"
+        TableSelectorLable3 = "Введите новый уникальный идентификатор для загружаемой таблицы"
+    }
     Item {
+        windowTableSelectorName = "Выберите таблицу"
+        window2Name = "Редактор таблицы"
         windowName = "Обозреватель форумов"
         itemFileMenuName = "Файл"
         itemParametersMenuName = "Настройки"
-        itemEditorMenuName = "Editor"
+        itemCommonMenuName = "Общее"
+        itemEditorMenuName = "Редактор"
         itemComputationsMenuName = "Расчёт"
         itemTextMenuName = "Показывать названия деталей"
         itemTextMenuSwitchedName = "Скрыть названия деталей"
         selectorModeMenuName = "Режим выбора: все элементы"
         selectorModeMenuSwitchedName = "Режим выбора: узлы"
         selectorModeMenuSwitched2Name = "Режим выбора: рёбра"
-        itemNameEditFantomCaptionName = "Имя детали на схеме"
-        itemCaptionEditFantomCaptionName = "Величина по СИ"
+        itemNameEditFantomCaptionName = "Имя элемента на схеме"
+        itemCaptionEditFantomCaptionName = "Значение элемента"
+        itemNameEditFantomMultipleCaptionName = "Проименовать одинаково все выделенные эл-ты"
+        itemCaptionEditFantomMultipleCaptionName = "Установить значения группе выделенных эл-тов"
     }
     Misc {
         part_0 = "Линия"
         part_1 = "Отношение"
         part_2 = "Набор Слов"
+        table_tutorial = "Нажмите '=' для выбора следущей таблицы, нажмите '-' для предыдущей; нажмите Esc для отмены"
+        table_appendMode = "Включён режим дорисовывания существующего графа"
     }
     Report {
         reportPart1HeadTitleName = "Расчёт по РГЗ№1"
