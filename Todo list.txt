@@ -2,4 +2,14 @@
 +multiselection
 +loading to tablelist without single buffer
 +printing forum to editor with table selector
--new window for table editing
++new window for table editing
+20210219:
++pymorphy2 integration
++lemmatization
+-OpenCorporaTag recognition
+-nWords patterns counting
+-{actant-action-passion} pattern recognition
+-RusEntiLex integration
+-sentiment relations graph
+-nWords graph
+-table editor GUI
