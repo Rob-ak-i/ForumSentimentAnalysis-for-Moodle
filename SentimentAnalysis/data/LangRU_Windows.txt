@@ -39,8 +39,8 @@ InnerTable {
         SchemeStorageSaveResultText6 = "Тип"
         SchemeStorageSaveResultText7 = "Узел0_ Узел1_ Значение X Y Наименование"
         SchemeStorageSaveResultText8 = "Дополнительные данные"
-        GUIHelper_nameedit_defaultCaption = "Наименование радиодетали"
-        GUIHelper_captionedit_defaultCaption = "Величина(по СИ)"
+        GUIHelper_nameedit_defaultCaption = "Наименование элемента"
+        GUIHelper_captionedit_defaultCaption = "Вещественный параметр эл-та"
     }
     GUI {
         TableSelectorLable1 = "Выберите идентификатор таблицы для создания по ней отчёта"
