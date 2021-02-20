@@ -5,7 +5,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import common.CommonData;
+import util.DataTable;
 
 public class GUITableEditor extends JFrame{
 	/**was set by random seed*/
@@ -22,11 +26,11 @@ public class GUITableEditor extends JFrame{
 	public JComboBoxExt tableName;
 	public GridBagLayout layout;
 	public JButton tableNameButton; 
+	public JTable table;
 	
 	
 	public GUITableEditor () {
 		super(common.Lang.InnerTable.Item.window2Name);
-		CommonData.frame2=this;
 		this.setSize(CommonData.WIDTH,CommonData.HEIGHT);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setResizable(true);
@@ -58,15 +62,26 @@ public class GUITableEditor extends JFrame{
 		constraints.ipady=0;
 		constraints.weightx=0;
 		constraints.weighty=0;
-		
-		tableNameButton = new JButton();
+		tableNameButton = new JButton(showTableElements);
 		//tableNameButton.set
-		tableNameButton.setText("OK");
-		
+		tableNameButton.setText("Show");
 		layout.setConstraints(tableNameButton, constraints);
 		this.add(tableNameButton);
 		
 	}
+	private static Action showTableElements = new AbstractAction() {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			DataTable table=CommonData.dataManager.getTable(CommonData.frame2.tableName.getCaption());
+			if(table==null)return;
+			int nRows = table.nRows();
+			int rand=(int)(Math.random()*(double)nRows);
+			//CommonData.frame2.table.set
+			System.out.println("WIP");
+			
+		}
+	};
 	private void addTableName() {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor=GridBagConstraints.NORTH;
@@ -113,7 +128,7 @@ public class GUITableEditor extends JFrame{
 		
 		layout.setConstraints(table, constraints);
 		this.add(table);
-		
+		this.table=table;
 	}
 	public static void main(String[] args) {
 		common.Settings.initialize();
