@@ -1,0 +1,4 @@
+First of all check for installed java, python3 and pymorphy2 library.
+For pymorphy2 installation see guide at readthedocs - https://pymorphy2.readthedocs.io/en/stable/user/guide.html#id2
+or update python3 and pip packages, and enter command "pip install pymorphy2" 
+for launching use command java -jar SentimentAnalyzer.jar
