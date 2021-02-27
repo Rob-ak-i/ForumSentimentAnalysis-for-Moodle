@@ -6,10 +6,15 @@
 20210219:
 +pymorphy2 integration
 +lemmatization
--OpenCorporaTag recognition
--nWords patterns counting
++OpenCorporaTag recognition
++PhrasesTree patterns counting
 -{actant-action-passion} pattern recognition
--RusEntiLex integration
+-RuSentiLex integration
 -sentiment relations graph
--nWords graph
++PhrasesTree graph
 -table editor GUI
+20210227:
+-loading from .htm Moodle forums in treeview
+-lexicTree parser
+-action extraction from grapheme
+-anaphora resolution
