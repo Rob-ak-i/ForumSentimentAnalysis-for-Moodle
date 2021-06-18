@@ -221,7 +221,9 @@ public class Lang {
 			public static String showTableEditorMenuActionName = "show table editor GUI";
 			public static String showTextMenuActionOptionName = "ShowPartNamesMenuOption";
 			public static String showTextMenuActionDescriptionName = "Show PartNames on Circuit?";
-			public static String computationsMenuAction0Name = "LocalizeTracksAndNodes";
+			public static String computationsMenuAction0Name = "Forum report";
+			public static String computationsMenuAction01Name = "User report";
+			
 			public static String computationsMenuAction1Name = "PrintMsgCount";
 			public static String computationsMenuAction2Name = "PrintDicts";
 			

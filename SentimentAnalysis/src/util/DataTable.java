@@ -24,6 +24,19 @@ public class DataTable implements ManagedObject{
 	public Object getField(int row, int col) {
 		return (dataColumns.get(col).get(row));
 	}
+	public DataTable copy() {
+		DataTable dt = new DataTable();
+		ArrayList newList,oldList;
+		for(int i=0;i<nColumns();++i) {
+			dt.colNames.add(colNames.get(i));
+			dt.colClasses.add(colClasses.get(i));
+			dt.dataColumns.add(new ArrayList());
+			newList=dt.dataColumns.get(i);
+			oldList=dataColumns.get(i);
+			newList.addAll(oldList);//for(int j=0;j<nRows();++j)newList.add(oldList.get(j));
+		}
+		return dt;
+	}
 	public ArrayList getColumn(int col) {
 		if(col>=nColumns())return null;
 		return dataColumns.get(col);
@@ -460,25 +473,33 @@ public class DataTable implements ManagedObject{
 	 * means that sort will be in 3 rules: first priority has second column that sorts by reverse order,
 	 * second priority sort will be reverse and by first column, 
 	 * and third priority has third column that sorts directly.*/
+	@Deprecated
 	public void sortRows(int[] columnsSortPriority, boolean[] dirsForward) {
 		if((columnsSortPriority.length==0) || (columnsSortPriority.length>nColumns()))return;
-		ArrayList<Integer> permutations = new ArrayList<Integer>();for(int i=0;i<dataColumns.get(0).size();++i)permutations.add(i);
+		ArrayList<Integer> permutations = new ArrayList<Integer>();for(int i=0;i<nRows();++i)permutations.add(i);
 		Collections.sort(permutations,new SortBy(columnsSortPriority.length, columnsSortPriority, dirsForward, dataColumns));
+		System.out.println(permutations);
+		ArrayList<Object> nowColumn,newColumn;
 		int p=0;Object buffer=null;
+		ArrayList<ArrayList> newDataColumns = new ArrayList<ArrayList>();for(int i=0;i<nColumns();++i)newDataColumns.add(new ArrayList());
 		for(int i=0;i<permutations.size();++i) {
 			p=permutations.get(i);
-			if(p!=i) {//then permute elements by indexes i and p in all columns 
-				for(int col=0;col<nColumns();++i) {
-					buffer=dataColumns.get(col).get(i);
-					dataColumns.get(col).set(i,
-							dataColumns.get(col).get(p)
-							);
-					dataColumns.get(col).set(p, 
-							buffer
-							);
-				}
+			//if(p!=i) {//then permute elements by indexes i and p in all columns 
+			for(int col=0;col<nColumns();++col) {
+				nowColumn=dataColumns.get(col);
+				newColumn=newDataColumns.get(col);
+				newColumn.add(nowColumn.get(p));
+				
+//				nowColumn.set(i,
+//						nowColumn.get(p)
+//						);
+//				nowColumn.set(p, 
+//						buffer
+//						);
 			}
+			//}
 		}
+		for(int i=0;i<nColumns();++i)dataColumns.get(i).clear();dataColumns.clear();dataColumns=newDataColumns;
 		permutations.clear();
 	}
 	//TODO public void sortColumns(int[] columnsPositionOrder) {WIP;}

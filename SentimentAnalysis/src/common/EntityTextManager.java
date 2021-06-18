@@ -7,13 +7,15 @@ import gui.JComboBoxExt;
 import languageprocessing.LanguageProcessor;
 import languageprocessing.LowLevelTextProcessor;
 import languageprocessing.OpenCorporaTag;
+import languageprocessing.SentimentData;
 import languageprocessing.Sequence;
 import util.DataTable;
 import util.EntityAbstractManager;
 
 public class EntityTextManager extends EntityAbstractManager<MessageBank> implements ObjectProcessor{
 	/* MessageBank manager */
-	
+
+	public ArrayList<SentimentData> textMonomialstoSentiment;
 	public ArrayList<String> textMonomials;
 	public ArrayList<String> textLemmes;
 	public ArrayList<Integer> textMonomialsToLemmes;
@@ -26,6 +28,7 @@ public class EntityTextManager extends EntityAbstractManager<MessageBank> implem
 		textLemmes = new ArrayList<String>();
 		textMonomialsToTags = new ArrayList<OpenCorporaTag>();
 		textMonomialsToLemmes = new ArrayList<Integer>();
+		textMonomialstoSentiment = new ArrayList<SentimentData>();
 		sequenceRoots=new ArrayList<Sequence>();
 		messageBanks=new ArrayList<MessageBank>();	
 	}
@@ -48,6 +51,9 @@ public class EntityTextManager extends EntityAbstractManager<MessageBank> implem
 		OpenCorporaTag tag = new OpenCorporaTag(tagStr,lemmaIndex);
 		textMonomialsToTags.add(tag);
 	}
+	public void addSentimentInformation(String mean, String opinion, String sentiment) {
+		textMonomialstoSentiment.add(new SentimentData(mean, opinion, sentiment));
+	}
 	/**allows to create databank even from somePerson or someTextForum or RawText.
 	 * makes messagesArray with word indexes, new words of which sends to externalLibraries to recognize*/
 	private boolean addManagedElement(String tableIdentifier) {
@@ -62,7 +68,11 @@ public class EntityTextManager extends EntityAbstractManager<MessageBank> implem
 		LanguageProcessor.upgradeAndSpliceAppendedMessages(messageBank);//getGraphemesFromMessages();
 		return true;
 	}
-	private void appendKnowledgeBase() {if(textMonomials.size()-textMonomialsToLemmes.size()>0)LowLevelTextProcessor.appendKnowledgeBase(this.textMonomials.subList(textMonomialsToLemmes.size(), textMonomials.size()),Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words.txt");}
+	private void appendKnowledgeBase() {
+		if(textMonomials.size()-textMonomialsToLemmes.size()>0)
+			LowLevelTextProcessor.appendKnowledgeBase(
+					this.textMonomials.subList(textMonomialsToLemmes.size(), textMonomials.size())
+					,Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words.txt");}
 
 	@Override
 	public Class<MessageBank> getManagedObjectClass() {
@@ -87,4 +97,5 @@ public class EntityTextManager extends EntityAbstractManager<MessageBank> implem
 		if(nCatches!=1)return false;
 		return result;
 	}
+
 }

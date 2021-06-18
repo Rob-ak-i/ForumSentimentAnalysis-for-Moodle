@@ -53,4 +53,7 @@ public abstract class EntityAbstractManager<E extends ManagedObject> {
 	public E getManagedElement(int index) {
 		return managedElements.get(index);
 	}
+	public int size() {
+		return managedElements.size();
+	}
 }

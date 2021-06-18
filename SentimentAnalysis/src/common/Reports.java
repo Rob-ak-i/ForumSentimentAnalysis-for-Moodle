@@ -16,12 +16,11 @@ public class Reports implements ObjectProcessor {
 	}
 	//TODO garbage
 	/**marked for garbage*/
-	public static void createReport() {
-		System.out.println("maybe WIF (now state - garbage)");
-		SchematicManager.reindexAllObjects();
-		// TO DO WIP
-			//SchematicManager.computePartsForAllNodes();
-		ReportWriter.writeResult(common.Lang.InnerTable.Report.reportBasicName);
+	public static void createForumReport() {
+		ReportWriter.writeResult(common.Lang.InnerTable.Report.reportBasicName, true);
+	}
+	public static void createUserReport() {
+		ReportWriter.writeResult(common.Lang.InnerTable.Report.reportBasicName, false);
 	}
 	public static void makeResult1() {
 		CommonData.frame_tableSelector.prepare(GUIAbstractSelector.innerStateUseForScript);

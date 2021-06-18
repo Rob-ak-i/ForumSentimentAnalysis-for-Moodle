@@ -36,6 +36,12 @@ public class Message implements ManagedObject{
 		//if(storageLevel==0)return -1;
 		return CommonData.textManager.textMonomialsToLemmes.get(index);
 	}
+	//public ArrayList<Integer>lemmes=null;
+	public SentimentData getSentimentData(int wordIndex) {
+		int index = words.get(wordIndex);
+		//if(storageLevel==0)return -1;
+		return CommonData.textManager.textMonomialstoSentiment.get(index);
+	}
 	public void addLemmes() {
 		if(lemmes!=null)return;
 		int nWords=words.size();

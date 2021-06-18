@@ -113,7 +113,12 @@ public class LowLevelTextProcessor {
 		//textManagerCommonWork(try to know new words)
 		
 		//TODO working on OpenCorporaTag interpretation
-		appendAnalyzedWords(Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words_tag.txt", Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words_normalForm.txt");
+		appendAnalyzedWords(
+				Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words_tag.txt", 
+				Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words_normalForm.txt",
+				Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words_mean.txt",
+				Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words_opinion.txt",
+				Settings.appPath+Settings.linkDelimiter+"saves"+Settings.linkDelimiter+"words_sentiment.txt");
 		
 	}
 	private static void runPyMorphy2(String scriptFilePath, String scriptFileName) {
@@ -167,9 +172,10 @@ public class LowLevelTextProcessor {
 		}catch(Exception e) {System.out.println(e);}
 	}
 	private static void saveNewWordsArrayToInputtxt(List<String> newWords, String fileName) {
-		PrintWriter out=null;
+		PrintWriter out=null;File file=new File(fileName);
 		try {
-			out = new PrintWriter(new File(fileName));
+			file.mkdirs();
+			out = new PrintWriter(file);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -182,22 +188,39 @@ public class LowLevelTextProcessor {
 		out.close();
 	}
 	
-	private static void appendAnalyzedWords(String tagsFileName, String lemmesFileName) {
-		Scanner inTags=null,inLemmes=null;
+	private static void appendAnalyzedWords(String tagsFileName, String lemmesFileName, String lemmes_MEAN, String lemmes_OPINION, String lemmes_SENTIMENT) {
+		Scanner inTags=null,inLemmes=null,inMean=null,inOpinion=null,inSentiment=null;
 		try {
 			inTags = new Scanner(new File(tagsFileName));
 			inLemmes = new Scanner(new File(lemmesFileName));
 		}catch(Exception e) {
 			e.printStackTrace();
+		}boolean isRuSentiLexEnabled=false;
+		try {
+			//inMean = new Scanner(new File(lemmes_MEAN));
+			inOpinion = new Scanner(new File(lemmes_OPINION));
+			inSentiment = new Scanner(new File(lemmes_SENTIMENT));
+			isRuSentiLexEnabled=true;
+		}catch(Exception e) {
+			isRuSentiLexEnabled=false;
 		}
 		if(inTags==null||inLemmes==null)return;
-		String lemmaStr,tagStr;
+		String lemmaStr,tagStr, mean=null,opinion=null,sentiment=null;
 		while(inTags.hasNext()) {
 			lemmaStr=inLemmes.nextLine();
 			tagStr=inTags.nextLine();
+			if(isRuSentiLexEnabled) {
+				//mean=inMean.nextLine();
+				opinion=inOpinion.nextLine();
+				sentiment=inSentiment.nextLine();
+				CommonData.textManager.addSentimentInformation(null, opinion, sentiment);
+			}
 			CommonData.textManager.addLemmaAndTag(lemmaStr, tagStr);
 		}
 		inLemmes.close();
 		inTags.close();
+		if(inMean!=null)inMean.close();
+		if(inOpinion!=null)inOpinion.close();
+		if(inSentiment!=null)inSentiment.close();
 	}
 }
